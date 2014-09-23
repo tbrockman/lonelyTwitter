@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -33,8 +34,8 @@ public class LonelyTwitterActivity extends Activity {
 	HashSet<String> values;
 	String tweetCount;
 	TextView tweetText;
-	public ArrayList<LonelyTweetModel> tweets;
 	public ArrayAdapter<LonelyTweetModel> adapter;
+	public ArrayList<LonelyTweetModel> twitter;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -52,7 +53,7 @@ public class LonelyTwitterActivity extends Activity {
 				setResult(RESULT_OK);
 				String text = bodyText.getText().toString();
 				LonelyTweetModel tweet = new LonelyTweetModel(text);
-				tweets.add(tweet);
+				twitter.add(tweet);
 				adapter.notifyDataSetChanged();
 				saveInFile();
 
@@ -65,11 +66,11 @@ public class LonelyTwitterActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onStart();
 		loadFromFile();
-		if (tweets == null){
-			tweets = new ArrayList<LonelyTweetModel>();	
+		if (twitter == null){
+			twitter = new ArrayList<LonelyTweetModel>();	
 		}
 		adapter = new ArrayAdapter<LonelyTweetModel>(this,
-				R.layout.list_item, tweets);
+				R.layout.list_item, twitter);
 		oldTweetsList.setAdapter(adapter);
 	}
 
@@ -78,7 +79,7 @@ public class LonelyTwitterActivity extends Activity {
 			FileInputStream fis = openFileInput(FILENAME);
 			InputStreamReader irs = new InputStreamReader(fis);
 			Gson gson = new GsonBuilder().create();
-			tweets = gson.fromJson(irs, new TypeToken<ArrayList<LonelyTweetModel>>() {}.getType());
+			twitter = gson.fromJson(irs, new TypeToken<ArrayList<LonelyTweetModel>>() {}.getType());
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -89,13 +90,26 @@ public class LonelyTwitterActivity extends Activity {
 		}
 	}
 	
+	public void onClickCounter(View view) {
+		int i = 0;
+		for (LonelyTweetModel m : twitter) {
+			i = i+1;
+		}
+		Intent intent = new Intent(this, Counter.class);
+		intent.putExtra("COUNT", i);
+		saveInFile();
+		startActivity(intent);
+		
+	}
+
+	
 	private void saveInFile() {
 		try {
 			FileOutputStream fos = openFileOutput(FILENAME,
 					0);
 			OutputStreamWriter osw = new OutputStreamWriter(fos);
 			Gson gson = new GsonBuilder().create();
-			gson.toJson(tweets, osw);
+			gson.toJson(twitter, osw);
 			osw.flush();
 			osw.close();
 		} catch (FileNotFoundException e) {
