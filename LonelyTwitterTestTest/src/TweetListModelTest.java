@@ -60,7 +60,7 @@ public class TweetListModelTest extends ActivityInstrumentationTestCase2<LonelyT
 		Date test1;
 		Date test2;
 		TweetListModel tlm = new TweetListModel();
-		for (int i = 0; i < 15; i++){
+		for (int i = 0; i < 11; i++){
 			Date date = new Date(2000-i, 12-i, 29-i);
 			LonelyTweetModel test = new LonelyTweetModel(Integer.toString(i), date);
 			tlm.add(test);
