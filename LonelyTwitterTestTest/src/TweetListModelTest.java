@@ -81,6 +81,8 @@ public class TweetListModelTest extends ActivityInstrumentationTestCase2<LonelyT
 		testTweet = new LonelyTweetModel("test2");
 		tlm.add(testTweet);
 		assertSame(tlm.getCount(), 2);
+		tlm.remove(testTweet);
+		assertSame(tlm.getCount(), 1);
 		
 		
 	}
