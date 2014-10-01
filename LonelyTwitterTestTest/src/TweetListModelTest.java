@@ -22,9 +22,9 @@ public class TweetListModelTest extends ActivityInstrumentationTestCase2<LonelyT
 		TweetListModel tlm = new TweetListModel();
 		LonelyTweetModel test = new LonelyTweetModel("Test");
 		tlm.add(test);
-		assertTrue(tlm.hasTweet(test), true);
+		assertEquals(tlm.hasTweet(test), true);
 		tlm.remove(test);
-		assertTrue(tlm.hasTweet(test), false);
+		assertEquals(tlm.hasTweet(test), false);
 	}
 	
 	public void testAddTweets() {
@@ -52,7 +52,7 @@ public class TweetListModelTest extends ActivityInstrumentationTestCase2<LonelyT
 		catch (IllegalArgumentException iae) {
 			caught = true;
 		}
-		assertTrue(caught, true);
+		assertEquals(caught, true);
 	}
 	
 	public void testHasTweet() {
@@ -86,12 +86,12 @@ public class TweetListModelTest extends ActivityInstrumentationTestCase2<LonelyT
 		TweetListModel tlm = new TweetListModel();
 		LonelyTweetModel testTweet = new LonelyTweetModel("test");
 		tlm.add(testTweet);
-		assertSame(tlm.getCount(), 1);
+		assertEquals(tlm.getCount(), 1);
 		testTweet = new LonelyTweetModel("test2");
 		tlm.add(testTweet);
-		assertSame(tlm.getCount(), 2);
+		assertEquals(tlm.getCount(), 2);
 		tlm.remove(testTweet);
-		assertSame(tlm.getCount(), 1);
+		assertEquals(tlm.getCount(), 1);
 		
 		
 	}
