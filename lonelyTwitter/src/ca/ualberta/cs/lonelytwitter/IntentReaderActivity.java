@@ -21,10 +21,23 @@ public class IntentReaderActivity extends Activity {
 		return text;
 	}
 	
+	public TextView getView() {
+		TextView tv = (TextView)findViewById(R.id.intentText);
+		return tv;
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_intent_reader);
+		Intent intent = getIntent();
+		text = intent.getStringExtra(TEXT_KEY);
+		if (text == null){
+			text = "default";
+		}
+		mode = intent.getIntExtra(TRANSFORM_KEY, NORMAL);
+		text = transformText(text);
+		getView().setText(text);
 	}
 	
 	public String transformText(String text) {

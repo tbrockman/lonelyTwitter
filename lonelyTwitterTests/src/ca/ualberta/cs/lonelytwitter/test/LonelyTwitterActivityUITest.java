@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import ca.ualberta.cs.lonelytwitter.LonelyTweetModel;
 import ca.ualberta.cs.lonelytwitter.LonelyTwitterActivity;
 import ca.ualberta.cs.lonelytwitter.NormalTweetModel;
 
@@ -42,5 +44,42 @@ public class LonelyTwitterActivityUITest extends
 		assertNotNull(activity.findViewById(ca.ualberta.cs.lonelytwitter.R.id.save));
 		textInput.setText(text);
 		((Button) activity.findViewById(ca.ualberta.cs.lonelytwitter.R.id.save)).performClick();
+	}
+	
+	public void testMakeTweet() {
+		ArrayAdapter<NormalTweetModel> adapter = ((LonelyTwitterActivity)activity).getAdapter();
+		try
+		{
+			runTestOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					makeTweet("blippityblooper");
+				}
+			});
+		} catch (Throwable e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertFalse(adapter.isEmpty());
+		assertEquals(adapter.getItem(0).getClass(), NormalTweetModel.class);
+		assertEquals(adapter.getItem(0).getText(), "blippityblooper");
+	}
+	
+	public void testClearTweet() {
+		try
+		{
+			runTestOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					makeTweet("blippityblooper");
+				}
+			});
+		} catch (Throwable e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals(((EditText)(activity.findViewById(ca.ualberta.cs.lonelytwitter.R.id.body))).getText().toString(), "");
 	}
 }
